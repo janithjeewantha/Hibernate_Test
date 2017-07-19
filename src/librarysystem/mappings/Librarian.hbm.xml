@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated Jul 20, 2017 12:35:02 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="librarysystem.entities.Librarian" table="librarian" catalog="library" optimistic-lock="version">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="library" class="librarysystem.entities.Library" fetch="select">
+            <column name="libraryid" not-null="true" />
+        </many-to-one>
+        <many-to-one name="role" class="librarysystem.entities.Role" fetch="select">
+            <column name="roleid" not-null="true" />
+        </many-to-one>
+        <property name="name" type="string">
+            <column name="name" length="45" not-null="true" />
+        </property>
+        <set name="tasks" table="librarian_task" inverse="false" lazy="true" fetch="select">
+            <key>
+                <column name="librarianid" not-null="true" />
+            </key>
+            <many-to-many entity-name="librarysystem.entities.Task">
+                <column name="taskid" not-null="true" />
+            </many-to-many>
+        </set>
+    </class>
+</hibernate-mapping>
