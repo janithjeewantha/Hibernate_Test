@@ -5,7 +5,9 @@
  */
 package librarysystem;
 
+import java.util.List;
 import librarysystem.dbaccess.LibraryHandler;
+import librarysystem.dbconnector.DBConnector;
 import librarysystem.entities.Librarian;
 import librarysystem.entities.Library;
 import librarysystem.entities.Role;
@@ -20,21 +22,26 @@ public class LibrarySystem {
     public static void main(String[] args) {
 
         LibraryHandler libraryHandler = new LibraryHandler();
-        //libraryHandler.getLibraries();
-        Role role = new Role();
-        role.setId(1);
-        role.setName("Lender");
-        Task task = new Task();
-        task.setId(1);
-        task.setName("Lend Books");
-        Library library = new Library();
-        library.setId(2);
-        library.setName("University");
-        Librarian librarian = new Librarian(1,library, role, "John");
-        librarian.getTasks().add(task);
-
-        libraryHandler.addLibrarian(librarian);
-
+        
+        List<Library> libraries = libraryHandler.getLibraries();
+        for (Library library : libraries) {
+            System.out.println(library);
+        }
+        
+        
+//        Role role = new Role();
+//        role.setName("Lenderaa");
+//        Task task = new Task();
+//        task.setName("Lend Booksaa");
+//        Library library = new Library();
+//        library.setName("Universityaa");
+//        Librarian librarian = new Librarian(library, role, "Johnaa");
+//        librarian.getTasks().add(task);
+//
+//        int index = libraryHandler.addLibrarian(librarian);
+//        System.out.println(index);
+        
+        DBConnector.close();
     }
     
 }

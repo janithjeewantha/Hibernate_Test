@@ -1,10 +1,12 @@
 package librarysystem.dbaccess;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import librarysystem.dbconnector.DBConnector;
 import librarysystem.entities.Library;
 import librarysystem.entities.Librarian;
+import librarysystem.entities.Task;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -28,25 +30,21 @@ public class LibraryHandler {
             session = factory.openSession();
             tx = session.beginTransaction();
             libraries = session.createQuery("FROM Library").list();
-
-            for (Iterator iter = libraries.iterator(); iter.hasNext();) {
-                Library element = (Library) iter.next();
-                System.out.println(element);
-            }
             tx.commit();
             session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
                     tx.rollback();
+                    System.out.println("Error occured! Transaction rolled back");
                 } catch (HibernateException e1) {
                     System.out.println("Error rolling back transaction");
                 }
-                throw e;
+                e.printStackTrace();
             }
         } finally {
-            if(session.isOpen()) {
-            	session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
             }
         }
 
@@ -54,6 +52,7 @@ public class LibraryHandler {
     }
 
     public int addLibrary(Library library) {
+        
         Integer id = null;
 
         try {
@@ -66,17 +65,19 @@ public class LibraryHandler {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
-        	if(session.isOpen()) {
-        		session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
             }
         }
+        
         return id;
     }
 
     public int addLibrarian(Librarian librarian) {
-        Integer id = null;
+        Integer id = -1;
+        int libraryId = -1;
+        int roleId = -1;
 
         try {
             session = factory.openSession();
@@ -88,10 +89,9 @@ public class LibraryHandler {
             if (tx != null) {
                 tx.rollback();
             }
-            e.printStackTrace();
         } finally {
-        	if(session.isOpen()) {
-        		session.close();
+            if (session != null && session.isOpen()) {
+                session.close();
             }
         }
         return id;

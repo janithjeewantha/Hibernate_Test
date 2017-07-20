@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated Jul 20, 2017 12:35:02 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="librarysystem.entities.Role" table="role" catalog="library" optimistic-lock="version">
         <id name="id" type="int">
@@ -11,7 +10,7 @@
         <property name="name" type="string">
             <column name="name" length="45" not-null="true" />
         </property>
-        <set name="librarians" table="librarian" inverse="true" lazy="true" fetch="select">
+        <set name="librarians" table="librarian" inverse="true" lazy="false" fetch="select">
             <key>
                 <column name="roleid" not-null="true" />
             </key>
