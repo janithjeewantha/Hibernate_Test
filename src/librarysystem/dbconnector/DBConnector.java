@@ -7,6 +7,7 @@ import org.hibernate.cfg.Configuration;
 /**
  *
  * @author janith
+ * This Class handles the session factory
  */
 public class DBConnector {
 

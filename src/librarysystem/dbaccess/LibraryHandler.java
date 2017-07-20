@@ -1,12 +1,9 @@
 package librarysystem.dbaccess;
 
-import java.io.Serializable;
-import java.util.Iterator;
 import java.util.List;
 import librarysystem.dbconnector.DBConnector;
 import librarysystem.entities.Library;
 import librarysystem.entities.Librarian;
-import librarysystem.entities.Task;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +12,8 @@ import org.hibernate.Transaction;
 /**
  *
  * @author janith
+ * This class encapsulates the basic CRUD operations
+ * of the library
  */
 public class LibraryHandler {
 
@@ -40,7 +39,6 @@ public class LibraryHandler {
                 } catch (HibernateException e1) {
                     System.out.println("Error rolling back transaction");
                 }
-                e.printStackTrace();
             }
         } finally {
             if (session != null && session.isOpen()) {
@@ -76,8 +74,6 @@ public class LibraryHandler {
 
     public int addLibrarian(Librarian librarian) {
         Integer id = -1;
-        int libraryId = -1;
-        int roleId = -1;
 
         try {
             session = factory.openSession();
