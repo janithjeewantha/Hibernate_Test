@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.List;
 import librarysystem.dbconnector.DBConnector;
 import librarysystem.entities.Library;
+import librarysystem.entities.Librarian;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -33,6 +34,7 @@ public class LibraryHandler {
                 System.out.println(element);
             }
             tx.commit();
+            session.close();
         } catch (RuntimeException e) {
             if (tx != null && tx.isActive()) {
                 try {
@@ -43,30 +45,55 @@ public class LibraryHandler {
                 throw e;
             }
         } finally {
-            factory.getCurrentSession().close();
+            if(session.isOpen()) {
+            	session.close();
+            }
         }
 
         return libraries;
     }
 
     public int addLibrary(Library library) {
-        Session session;
-        Transaction tx = null;
         Integer id = null;
+
         try {
             session = factory.openSession();
             tx = session.beginTransaction();
             id = (Integer) session.save(library);
             tx.commit();
+            session.close();
         } catch (HibernateException e) {
             if (tx != null) {
                 tx.rollback();
             }
             e.printStackTrace();
         } finally {
-            factory.getCurrentSession().close();
+        	if(session.isOpen()) {
+        		session.close();
+            }
         }
         return id;
     }
 
+    public int addLibrarian(Librarian librarian) {
+        Integer id = null;
+
+        try {
+            session = factory.openSession();
+            tx = session.beginTransaction();
+            id = (Integer) session.save(librarian);
+            tx.commit();
+            session.close();
+        } catch (HibernateException e) {
+            if (tx != null) {
+                tx.rollback();
+            }
+            e.printStackTrace();
+        } finally {
+        	if(session.isOpen()) {
+        		session.close();
+            }
+        }
+        return id;
+    }
 }

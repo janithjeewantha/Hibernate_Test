@@ -22,15 +22,19 @@ public class LibrarySystem {
         LibraryHandler libraryHandler = new LibraryHandler();
         //libraryHandler.getLibraries();
         Role role = new Role();
+        role.setId(1);
         role.setName("Lender");
         Task task = new Task();
+        task.setId(1);
         task.setName("Lend Books");
         Library library = new Library();
+        library.setId(2);
         library.setName("University");
-        Librarian librarian = new Librarian(library, role, "John");
-        
-        libraryHandler.addLibrary(library);
-        
+        Librarian librarian = new Librarian(1,library, role, "John");
+        librarian.getTasks().add(task);
+
+        libraryHandler.addLibrarian(librarian);
+
     }
     
 }
